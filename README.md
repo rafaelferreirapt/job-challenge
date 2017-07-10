@@ -47,3 +47,16 @@ RESPONSE:
   ]
 }
 
+
+**USAGE**
+
+Just run: ./setup.sh
+
+Se pretender carregar o ficheiro neopets.txt, ir a data/raw/read.py e decomentar as linhas 9 e 10, grab a coffee! ≈ 20 min
+
+Irá lançar três containers docker: um com o elastic search, outro com a API flask e outro com a dashboard
+
+Dashboard: http://localhost:8080/
+API: http://localhost:5001/
+
+Already deployed with large data set: 
