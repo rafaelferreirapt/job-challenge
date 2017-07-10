@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -e
 
 # get elastic search IP and update in settings
 

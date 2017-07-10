@@ -1,4 +1,5 @@
 import requests
+import time
 
 files = [
     {"file": "linkedinsample.txt",
@@ -9,39 +10,46 @@ files = [
 
 if __name__ == '__main__':
 
-    r = requests.put(url="http://localhost:9200/binary", json={
-        "settings": {
-            "analysis": {
-                "analyzer": {
-                    "email": {
-                        "tokenizer": "uax_url_email",
-                        "filter": [
-                            "lowercase",
-                            "unique"
-                        ]
+
+    while True:
+        try:
+            r = requests.put(url="http://localhost:9200/binary", json={
+                "settings": {
+                    "analysis": {
+                        "analyzer": {
+                            "email": {
+                                "tokenizer": "uax_url_email",
+                                "filter": [
+                                    "lowercase",
+                                    "unique"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "mappings": {
+                    "linkedin": {
+                        "properties": {
+                            "email": {
+                                "type": "text",
+                                "analyzer": "email"
+                            }
+                        }
+                    },
+                    "neopets": {
+                        "properties": {
+                            "email": {
+                                "type": "text",
+                                "analyzer": "email"
+                            }
+                        }
                     }
                 }
-            }
-        },
-        "mappings": {
-            "linkedin": {
-                "properties": {
-                    "email": {
-                        "type": "text",
-                        "analyzer": "email"
-                    }
-                }
-            },
-            "neopets": {
-                "properties": {
-                    "email": {
-                        "type": "text",
-                        "analyzer": "email"
-                    }
-                }
-            }
-        }
-    })
+            })
+        except requests.exceptions.ConnectionError:
+            time.sleep(10)
+            continue
+        break
 
     print "create mapping"
     print r.status_code
